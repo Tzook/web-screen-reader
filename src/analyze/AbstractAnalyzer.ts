@@ -5,7 +5,8 @@ export abstract class AbstractAnalyzer implements ProcessingLinkInterface {
 
     public handle(node: HTMLElement): AbstractAnalyzer {
         let result: AbstractAnalyzer;
-        if (this.analyze(node)) {
+        let role = node.getAttribute("role");
+        if (role === this.getRole() || !role && this.analyze(node)) {
             result = this;
         } else if (this.successor) {
             result = this.successor.handle(node);
@@ -14,6 +15,8 @@ export abstract class AbstractAnalyzer implements ProcessingLinkInterface {
     }
 
     protected abstract analyze(node: HTMLElement): boolean;
+    
+    protected abstract getRole(): string;
 
     public setSuccessor(successor: AbstractAnalyzer) {
         this.successor = successor;

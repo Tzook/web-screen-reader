@@ -11,4 +11,8 @@ export class TextAnalyzer extends AbstractAnalyzer {
         }
         return false;
     }
+
+    protected getRole(): string {
+        return "text";
+    }
 }

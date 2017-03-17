@@ -5,4 +5,8 @@ export class TrueAnalyzer extends AbstractAnalyzer {
         // this should be a wildcard - always returns yes if it gets here
         return true;
     }
-}
+
+    protected getRole(): string {
+        return "";
+    }
+} 
