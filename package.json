@@ -1,0 +1,18 @@
+{
+  "name": "web-screen-reader",
+  "version": "1.0.0",
+  "description": "A screen reader for the web",
+  "scripts": {
+    "start": "npm run tsc:w",
+    "tsc": "tsc",
+    "tsc:w": "tsc -w"
+  },
+  "author": "Tzook",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^2.2.1"
+  },
+  "dependencies": {
+    "systemjs": "^0.20.10"
+  }
+}
