@@ -7,7 +7,6 @@ export class SpeechSynthesisUtteranceOutputHandler extends AbstractOutputHandler
 
     public output(text: string): void {
         console.info("Saying:", text);
-        this.abort();
         var msg = new (<any>this.window).SpeechSynthesisUtterance(text);
         msg.voice = window.speechSynthesis.getVoices()[17];
         window.speechSynthesis.speak(msg);

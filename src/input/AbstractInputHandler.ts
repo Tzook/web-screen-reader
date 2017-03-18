@@ -4,9 +4,18 @@ import { AbstractOutputHandler } from "../output/AbstractOutputHandler";
 
 export abstract class AbstractInputHandler {
     constructor(protected window: Window,
-        protected outputHandler: AbstractOutputHandler) { }
+        protected outputHandler: AbstractOutputHandler,
+        protected analyzer: AbstractAnalyzer, 
+        protected analyzeToSpeakMap: Map<AbstractAnalyzer, AbstractSpeaker>) { }
 
-    public abstract enableInput(analyzer: AbstractAnalyzer, analyzeToSpeakMap: Map<AbstractAnalyzer, AbstractSpeaker>): void;
+    public abstract enableInput(): void;
 
     public abstract disableInput(): void;
+
+    protected getSpeakText(element: HTMLElement): string {
+        let usedAnalyzer = this.analyzer.handle(element);
+        let speaker = this.analyzeToSpeakMap.get(usedAnalyzer);
+        let speakText = speaker.getSpeak(element);
+        return speakText;
+    }
 }
