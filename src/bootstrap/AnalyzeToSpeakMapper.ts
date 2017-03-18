@@ -22,7 +22,7 @@ export class AnalyzeToSpeakMapper {
         map.set(new HiddenAnalyzer(), nullSpeaker);
         map.set(new LinkAnalyzer(), new LinkSpeaker());
         map.set(new ButtonAnalyzer(), new ButtonSpeaker());
-        map.set(new ImageAnalyzer(), new ImageSpeaker());
+        map.set(new ImageAnalyzer(window), new ImageSpeaker());
         map.set(new TextAnalyzer(), new TextSpeaker());
         // wildcard - always last and will catch everything that wasn't handled
         map.set(new TrueAnalyzer(), nullSpeaker);
