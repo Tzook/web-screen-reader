@@ -1,5 +1,5 @@
 import { AbstractAnalyzer } from "../analyze/AbstractAnalyzer";
-import { AbstractSpeaker } from "../speak/AbstractSpeaker";
+import { SpeakerInterface } from "../speak/SpeakerInterface";
 
 import { LinkAnalyzer } from "../analyze/LinkAnalyzer";
 import { LinkSpeaker } from "../speak/LinkSpeaker";
@@ -16,17 +16,18 @@ import { CheckboxAnalyzer } from "../analyze/CheckboxAnalyzer";
 import { CheckboxSpeaker } from "../speak/CheckboxSpeaker";
 
 export class AnalyzeToSpeakMapper {
-    public getMap(): Map<AbstractAnalyzer, AbstractSpeaker> {
+    public getMap(): Map<AbstractAnalyzer, SpeakerInterface> {
         // the order of the items is the order that nodes are being analyzed until one of them is truthy
-        let map: Map<AbstractAnalyzer, AbstractSpeaker> = new Map();
+        let map: Map<AbstractAnalyzer, SpeakerInterface> = new Map();
 
         let nullSpeaker = new NullSpeaker();
+        let textSpeaker = new TextSpeaker();
         map.set(new HiddenAnalyzer(), nullSpeaker);
-        map.set(new LinkAnalyzer(), new LinkSpeaker());
-        map.set(new ButtonAnalyzer(), new ButtonSpeaker());
+        map.set(new LinkAnalyzer(), new LinkSpeaker(textSpeaker));
+        map.set(new ButtonAnalyzer(), new ButtonSpeaker(textSpeaker));
         map.set(new ImageAnalyzer(window), new ImageSpeaker());
         map.set(new CheckboxAnalyzer(), new CheckboxSpeaker());
-        map.set(new TextAnalyzer(), new TextSpeaker());
+        map.set(new TextAnalyzer(), textSpeaker);
         // wildcard - always last and will catch everything that wasn't handled
         map.set(new TrueAnalyzer(), nullSpeaker);
 

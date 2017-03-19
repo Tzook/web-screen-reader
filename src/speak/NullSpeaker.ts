@@ -1,7 +1,7 @@
-import { AbstractSpeaker } from "./AbstractSpeaker";
+import { SpeakerInterface } from "./SpeakerInterface";
 
-export class NullSpeaker extends AbstractSpeaker {
-    protected speak(node: HTMLElement): string {
+export class NullSpeaker implements SpeakerInterface {
+    public getText(node: HTMLElement): string {
         return "";
     }
 }

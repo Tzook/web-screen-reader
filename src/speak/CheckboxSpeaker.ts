@@ -1,9 +1,9 @@
-import { AbstractSpeaker } from "./AbstractSpeaker";
+import { SpeakerInterface } from "./SpeakerInterface";
 
-export class CheckboxSpeaker extends AbstractSpeaker {
-    protected speak(node: HTMLInputElement): string {
-        let isChecked = this.isChecked(node);
+export class CheckboxSpeaker implements SpeakerInterface {
+    public getText(node: HTMLInputElement): string {
         let nameText = node.name ? `${node.name}. ` : ``;
+        let isChecked = this.isChecked(node);
         let checkedText = `Currently ${isChecked ? "" : "not "}Checked.`;
         return `Checkbox.. ` + nameText + checkedText;
     }

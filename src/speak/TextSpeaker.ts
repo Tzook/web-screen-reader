@@ -1,8 +1,13 @@
-import { AbstractSpeaker } from "./AbstractSpeaker";
+import { SpeakerInterface } from "./SpeakerInterface";
 
-export class TextSpeaker extends AbstractSpeaker {
-    protected speak(node: HTMLElement): string {
-        let text = node.getAttribute("aria-label") || node.title || (node.innerText || node.textContent || "").trim().replace(/\n+/g, ". ");
+export class TextSpeaker implements SpeakerInterface {
+    public getText(node: HTMLElement): string {
+        let text = (node.getAttribute("aria-label")
+            || node.title
+            || node.innerText
+            || node.textContent // like svg
+            || node.getAttribute("value") // like inputs
+        || "").trim().replace(/\n+/g, ". ");
         return text ? `${text}.` : ``;
     }
 }

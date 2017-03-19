@@ -3,7 +3,7 @@ import { MouseMoveInputHandler } from "../input/MouseMoveInputHandler";
 import { TabInputHandler } from "../input/TabInputHandler";
 import { AbstractOutputHandler } from "../output/AbstractOutputHandler";
 import { MutationObserverInputHandler } from "../input/MutationObserverInputHandler";
-import { AbstractSpeaker } from "../speak/AbstractSpeaker";
+import { SpeakerInterface } from "../speak/SpeakerInterface";
 import { AbstractAnalyzer } from "../analyze/AbstractAnalyzer";
 import { AbstractMutationHandler } from "../mutation-handlers/AbstractMutationHandler";
 
@@ -11,7 +11,7 @@ export class InputListGetter {
     constructor(private window: Window,
         private outputHandler: AbstractOutputHandler,
         private analyzer: AbstractAnalyzer, 
-        private analyzeToSpeakMap: Map<AbstractAnalyzer, AbstractSpeaker>,
+        private analyzeToSpeakMap: Map<AbstractAnalyzer, SpeakerInterface>,
         private mutationHandler: AbstractMutationHandler) { }
 
     public getList(): AbstractInputHandler[] {

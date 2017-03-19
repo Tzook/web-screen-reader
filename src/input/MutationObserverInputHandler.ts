@@ -1,5 +1,5 @@
 import { AbstractAnalyzer } from "../analyze/AbstractAnalyzer";
-import { AbstractSpeaker } from "../speak/AbstractSpeaker";
+import { SpeakerInterface } from "../speak/SpeakerInterface";
 import { AbstractInputHandler } from "./AbstractInputHandler";
 import { AbstractOutputHandler } from "../output/AbstractOutputHandler";
 import { AbstractMutationHandler } from "../mutation-handlers/AbstractMutationHandler";
@@ -10,7 +10,7 @@ export class MutationObserverInputHandler extends AbstractInputHandler {
     constructor(protected window: Window,
         protected outputHandler: AbstractOutputHandler,
         protected analyzer: AbstractAnalyzer,
-        protected analyzeToSpeakMap: Map<AbstractAnalyzer, AbstractSpeaker>,
+        protected analyzeToSpeakMap: Map<AbstractAnalyzer, SpeakerInterface>,
         protected mutationHandler: AbstractMutationHandler) {
         super(window, outputHandler, analyzer, analyzeToSpeakMap);
     }
@@ -28,12 +28,12 @@ export class MutationObserverInputHandler extends AbstractInputHandler {
     }
 
     protected mutationOccurred(mutations: MutationRecord[]): void {
-        let elementsAdded: Set<HTMLElement> = new Set();
+        let elementsModified: Set<HTMLElement> = new Set();
         for (let mutation of mutations) {
-            this.mutationHandler.handle(mutation, elementsAdded);
+            this.mutationHandler.handle(mutation, elementsModified);
         }
         let hasSpoken = false;
-        for (let element of elementsAdded) {
+        for (let element of elementsModified) {
             let speakText = this.getSpeakText(element);
             if (speakText) {
                 if (!hasSpoken) {

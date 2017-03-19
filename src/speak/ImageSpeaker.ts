@@ -1,7 +1,7 @@
-import { AbstractSpeaker } from "./AbstractSpeaker";
+import { SpeakerInterface } from "./SpeakerInterface";
 
-export class ImageSpeaker extends AbstractSpeaker {
-    protected speak(node: HTMLElement): string {
+export class ImageSpeaker implements SpeakerInterface {
+    public getText(node: HTMLElement): string {
         let text = node.getAttribute("aria-label") || node.title || (<HTMLImageElement>node).alt;
         return `Image..` + (text ? ` ${text}.` : ``);
     }

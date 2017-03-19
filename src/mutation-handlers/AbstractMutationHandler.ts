@@ -3,14 +3,14 @@ import { ProcessingLinkInterface } from "../patterns/chain-of-responsibility/Pro
 export abstract class AbstractMutationHandler implements ProcessingLinkInterface {
     private successor: AbstractMutationHandler;
 
-    public handle(mutation: MutationRecord, elementsAdded: Set<HTMLElement>) {
-        let insertedElements = this.analyze(mutation, elementsAdded);
+    public handle(mutation: MutationRecord, elementsModified: Set<HTMLElement>) {
+        let insertedElements = this.analyze(mutation, elementsModified);
         if (!insertedElements && this.successor) {
-            this.successor.handle(mutation, elementsAdded);
+            this.successor.handle(mutation, elementsModified);
         }
     }
 
-    protected abstract analyze(mutation: MutationRecord, elementsAdded: Set<HTMLElement>): boolean;
+    protected abstract analyze(mutation: MutationRecord, elementsModified: Set<HTMLElement>): boolean;
 
     public setSuccessor(successor: AbstractMutationHandler) {
         this.successor = successor;
