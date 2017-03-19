@@ -12,6 +12,8 @@ import { TrueAnalyzer } from "../analyze/TrueAnalyzer";
 import { HiddenAnalyzer } from "../analyze/HiddenAnalyzer";
 import { ImageAnalyzer } from "../analyze/ImageAnalyzer";
 import { ImageSpeaker } from "../speak/ImageSpeaker";
+import { CheckboxAnalyzer } from "../analyze/CheckboxAnalyzer";
+import { CheckboxSpeaker } from "../speak/CheckboxSpeaker";
 
 export class AnalyzeToSpeakMapper {
     public getMap(): Map<AbstractAnalyzer, AbstractSpeaker> {
@@ -23,6 +25,7 @@ export class AnalyzeToSpeakMapper {
         map.set(new LinkAnalyzer(), new LinkSpeaker());
         map.set(new ButtonAnalyzer(), new ButtonSpeaker());
         map.set(new ImageAnalyzer(window), new ImageSpeaker());
+        map.set(new CheckboxAnalyzer(), new CheckboxSpeaker());
         map.set(new TextAnalyzer(), new TextSpeaker());
         // wildcard - always last and will catch everything that wasn't handled
         map.set(new TrueAnalyzer(), nullSpeaker);
