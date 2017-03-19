@@ -2,7 +2,7 @@ import { AbstractAnalyzer } from "../analyze/AbstractAnalyzer";
 import { AbstractSpeaker } from "../speak/AbstractSpeaker";
 import { AbstractInputHandler } from "./AbstractInputHandler";
 import { AbstractOutputHandler } from "../output/AbstractOutputHandler";
-import { AbstractMutationHandler } from "./mutation-handlers/AbstractMutationHandler";
+import { AbstractMutationHandler } from "../mutation-handlers/AbstractMutationHandler";
 
 export class MutationObserverInputHandler extends AbstractInputHandler {
     protected observer: MutationObserver;

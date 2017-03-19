@@ -5,7 +5,7 @@ import { AbstractOutputHandler } from "../output/AbstractOutputHandler";
 import { MutationObserverInputHandler } from "../input/MutationObserverInputHandler";
 import { AbstractSpeaker } from "../speak/AbstractSpeaker";
 import { AbstractAnalyzer } from "../analyze/AbstractAnalyzer";
-import { AbstractMutationHandler } from "../input/mutation-handlers/AbstractMutationHandler";
+import { AbstractMutationHandler } from "../mutation-handlers/AbstractMutationHandler";
 
 export class InputListGetter {
     constructor(private window: Window,

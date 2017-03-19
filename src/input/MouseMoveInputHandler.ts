@@ -1,6 +1,3 @@
-import { AbstractAnalyzer } from "../analyze/AbstractAnalyzer";
-import { AbstractSpeaker } from "../speak/AbstractSpeaker";
-import { AbstractInputHandler } from "./AbstractInputHandler";
 import { AbstractEventInputHandler } from "./AbstractEventInputHandler";
 
 export class MouseMoveInputHandler extends AbstractEventInputHandler {

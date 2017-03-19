@@ -2,7 +2,7 @@ import { AbstractMutationHandler } from "./AbstractMutationHandler";
 
 export class TextMutationHandler extends AbstractMutationHandler {
     protected analyze(mutation: MutationRecord, elementsAdded: Set<HTMLElement>): boolean {
-        const isText = mutation.type === "characterData";
+        let isText = mutation.type === "characterData";
         if (isText) {
             let parentNode = mutation.target.parentElement;
             if (parentNode) {
@@ -12,4 +12,4 @@ export class TextMutationHandler extends AbstractMutationHandler {
         }
         return isText;
     }
-};
+}; 

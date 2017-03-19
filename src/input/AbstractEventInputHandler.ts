@@ -1,5 +1,3 @@
-import { AbstractAnalyzer } from "../analyze/AbstractAnalyzer";
-import { AbstractSpeaker } from "../speak/AbstractSpeaker";
 import { AbstractInputHandler } from "./AbstractInputHandler";
 
 export abstract class AbstractEventInputHandler extends AbstractInputHandler {
@@ -14,9 +12,9 @@ export abstract class AbstractEventInputHandler extends AbstractInputHandler {
     }
 
     protected handleEvent(event: UIEvent): void {
-        let srcElement = <HTMLElement>event.srcElement;
+        let target = <HTMLElement>event.target;
 
-        let speakText = this.getSpeakText(srcElement);
+        let speakText = this.getSpeakText(target);
         if (speakText) {
             // since this is on-demand action, we want to abort anything prior to it
             this.outputHandler.abort();

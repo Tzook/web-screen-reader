@@ -1,6 +1,6 @@
 import { ProcessingLinkInterface } from "./ProcessingLinkInterface";
 
-export class ChainOfResponsibility {
+export class ChainMaker {
     public makeChain(iterator: IterableIterator<ProcessingLinkInterface> | ProcessingLinkInterface[]): ProcessingLinkInterface {
         let firstLink: ProcessingLinkInterface;
         let prevLink: ProcessingLinkInterface;

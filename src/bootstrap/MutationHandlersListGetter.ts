@@ -1,6 +1,6 @@
-import { AbstractMutationHandler } from "../input/mutation-handlers/AbstractMutationHandler";
-import { AddedNodesMutationHandler } from "../input/mutation-handlers/AddedNodesMutationHandler";
-import { TextMutationHandler } from "../input/mutation-handlers/TextMutationHandler";
+import { AbstractMutationHandler } from "../mutation-handlers/AbstractMutationHandler";
+import { AddedNodesMutationHandler } from "../mutation-handlers/AddedNodesMutationHandler";
+import { TextMutationHandler } from "../mutation-handlers/TextMutationHandler";
 
 export class MutationHandlersListGetter {
     public getList(): AbstractMutationHandler[] {
