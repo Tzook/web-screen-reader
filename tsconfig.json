@@ -3,10 +3,14 @@
         "src"
     ],
     "compilerOptions": {
-        "noImplicitAny": true,
         "target": "es2015",
-        "pretty": true, 
+        "module": "system",
         "outFile": "bundle.js",
-        "module": "system"
+        "pretty": true, 
+        "forceConsistentCasingInFileNames": true,
+        "noImplicitAny": true,
+        "noImplicitThis": true,
+        "noImplicitUseStrict": true,
+        "noUnusedLocals": true
     }
 }

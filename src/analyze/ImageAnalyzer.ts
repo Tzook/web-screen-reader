@@ -1,8 +1,8 @@
 import { AbstractAnalyzer } from "./AbstractAnalyzer";
 
 export class ImageAnalyzer extends AbstractAnalyzer {
-    constructor(private window: Window) { 
-        super(); 
+    constructor(private window: Window) {
+        super();
     }
 
     protected analyze(node: HTMLElement): boolean {
@@ -10,8 +10,10 @@ export class ImageAnalyzer extends AbstractAnalyzer {
         if (!isImage && !node.innerText) {
             // only if it has no text then we should check if it has a background image
             let computedStyle = this.window.getComputedStyle(node); // it doesn't always forces a reflow. see https://gist.github.com/paulirish/5d52fb081b3570c81e3a
-            isImage = this.hasImageUrl(computedStyle.backgroundImage) || this.hasImageUrl(computedStyle.background);
-        } 
+            if (computedStyle) { // firefox in iframe with display: none...
+                isImage = this.hasImageUrl(computedStyle.backgroundImage) || this.hasImageUrl(computedStyle.background);
+            }
+        }
         return isImage;
     }
 

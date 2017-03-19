@@ -1,4 +1,3 @@
-import { AbstractAnalyzer } from "../analyze/AbstractAnalyzer";
 import { AbstractEventInputHandler } from "./AbstractEventInputHandler";
 
 const TAB_KEYCODE = 9;
