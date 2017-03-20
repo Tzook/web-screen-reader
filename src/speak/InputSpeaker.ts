@@ -6,7 +6,7 @@ export class InputSpeaker implements SpeakerInterface {
 
     public getText(node: HTMLInputElement): string {
         let text = this.labelledSpeaker.getText(node)
-            || (node.name ? `${node.name}. ` : ``);
+            || (node.name ? `${node.name}.` : ``);
         return text;
     }
 }

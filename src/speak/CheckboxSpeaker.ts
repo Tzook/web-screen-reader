@@ -7,7 +7,7 @@ export class CheckboxSpeaker implements SpeakerInterface {
     public getText(node: HTMLInputElement): string {
         let inputText = this.inputSpeaker.getText(node);
         let isChecked = this.isChecked(node);
-        let checkedText = `Currently ${isChecked ? "" : "not "}Checked.`;
+        let checkedText = ` Currently ${isChecked ? "" : "not "}Checked.`;
         return `Checkbox.. ` + inputText + checkedText;
     }
 

@@ -24,6 +24,6 @@ export class ButtonAnalyzer extends AbstractAnalyzer {
     }
 
     protected isButtonString(value: string): boolean {
-        return /button|btn|click/.test(value) 
+        return /button|btn|click/i.test(value) 
     }
 }

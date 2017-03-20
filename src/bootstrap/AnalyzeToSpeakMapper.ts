@@ -16,6 +16,8 @@ import { CheckboxAnalyzer } from "../analyze/CheckboxAnalyzer";
 import { CheckboxSpeaker } from "../speak/CheckboxSpeaker";
 import { LabelledSpeaker } from "../speak/LabelledSpeaker";
 import { InputSpeaker } from "../speak/InputSpeaker";
+import { InputAnalyzer } from "../analyze/InputAnalyzer";
+import { InputTextSpeaker } from "../speak/InputTextSpeaker";
 
 export class AnalyzeToSpeakMapper {
     public getMap(): Map<AbstractAnalyzer, SpeakerInterface> {
@@ -32,6 +34,7 @@ export class AnalyzeToSpeakMapper {
         map.set(new ButtonAnalyzer(), new ButtonSpeaker(textSpeaker));
         map.set(new ImageAnalyzer(window), new ImageSpeaker(labelledSpeaker));
         map.set(new CheckboxAnalyzer(), new CheckboxSpeaker(inputSpeaker));
+        map.set(new InputAnalyzer(), new InputTextSpeaker(inputSpeaker));
         map.set(new TextAnalyzer(), textSpeaker);
         // wildcard - always last and will catch everything that wasn't handled
         map.set(new TrueAnalyzer(), nullSpeaker);
