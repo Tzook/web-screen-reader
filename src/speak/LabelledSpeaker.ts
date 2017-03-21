@@ -8,7 +8,11 @@ export class LabelledSpeaker implements SpeakerInterface {
         private getterByIds: GetterByIds) { }
 
     public getText(node: HTMLElement, config: SpeakConfigInterface): string {
-        let text = this.getRefText(node, config) || node.getAttribute("aria-label");
+        let text = this.getRefText(node, config)
+        if (!text) {
+            text = node.getAttribute("aria-label");
+            text = text ? `${text}.` : ``;
+        }
         return text;
     }
 
@@ -19,7 +23,7 @@ export class LabelledSpeaker implements SpeakerInterface {
             if (refLabel) {
                 let ids = refLabel.split(/\s+/);
                 let elements = this.getterByIds.getElements(ids);
-                let newConfig = Object.assign({}, config, {checkRef: false}); 
+                let newConfig = Object.assign({}, config, { checkRef: false });
                 // do not check ref for further elements, to avoid infinite label checks
                 for (let element of elements) {
                     let elementText = this.elementToTextMediator.getText(<HTMLElement>element, newConfig);

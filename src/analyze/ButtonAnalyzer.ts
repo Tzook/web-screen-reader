@@ -2,9 +2,9 @@ import { AbstractAnalyzer } from "./AbstractAnalyzer";
 
 export class ButtonAnalyzer extends AbstractAnalyzer {
     protected analyze(node: HTMLElement): boolean {
-        let isButton = node.localName === "button" || node.localName === "a" 
+        let isButton = node.localName === "button" || node.localName === "a"
             || this.isInputButton(node)
-            || !!node.onclick 
+            || !!node.onclick
             || !!node.getAttribute("ng-click") // angular leaves trace - unfortunately react nor vue do that
             || this.isButtonString(node.className) || this.isButtonString(node.id);
         return isButton;
@@ -24,6 +24,6 @@ export class ButtonAnalyzer extends AbstractAnalyzer {
     }
 
     protected isButtonString(value: string): boolean {
-        return /button|btn|click/i.test(value) 
+        return /button|btn|click/i.test(value)
     }
 }

@@ -1,5 +1,5 @@
 import { AbstractMutationHandler } from "./AbstractMutationHandler";
- 
+
 export class AddedNodesMutationHandler extends AbstractMutationHandler {
     protected analyze(mutation: MutationRecord, elementsModified: Set<HTMLElement>): boolean {
         this.findTextElements(mutation.addedNodes, elementsModified);

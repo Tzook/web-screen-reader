@@ -15,7 +15,7 @@ export abstract class AbstractAnalyzer implements ProcessingLinkInterface {
     }
 
     protected abstract analyze(node: HTMLElement): boolean;
-    
+
     protected abstract getRole(): string;
 
     public setSuccessor(successor: AbstractAnalyzer) {

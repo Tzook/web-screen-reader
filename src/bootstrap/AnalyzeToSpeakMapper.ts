@@ -35,7 +35,7 @@ export class AnalyzeToSpeakMapper {
         let labelledSpeaker = new LabelledSpeaker(this.elementToTextMediator, this.getterByIds);
         let textSpeaker = new TextSpeaker(labelledSpeaker);
         let inputSpeaker = new InputSpeaker(labelledSpeaker);
-        
+
         map.set(new HiddenAnalyzer(), nullSpeaker);
         map.set(new LinkAnalyzer(), new LinkSpeaker(textSpeaker));
         map.set(new ButtonAnalyzer(), new ButtonSpeaker(textSpeaker));

@@ -23,7 +23,7 @@ export class LabelSpeaker implements SpeakerInterface {
                 let elements = this.getterByIds.getElements([refFor]);
                 if (elements.length > 0) {
                     // do not check ref for further elements, to avoid infinite label checks
-                    let newConfig = Object.assign({}, config, {checkRef: false}); 
+                    let newConfig = Object.assign({}, config, { checkRef: false });
                     forText = this.elementToTextMediator.getText(<HTMLElement>elements[0], newConfig);
                 }
             }

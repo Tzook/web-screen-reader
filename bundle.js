@@ -140,7 +140,11 @@ System.register("speak/LabelledSpeaker", [], function (exports_8, context_8) {
                     this.getterByIds = getterByIds;
                 }
                 getText(node, config) {
-                    let text = this.getRefText(node, config) || node.getAttribute("aria-label");
+                    let text = this.getRefText(node, config);
+                    if (!text) {
+                        text = node.getAttribute("aria-label");
+                        text = text ? `${text}.` : ``;
+                    }
                     return text;
                 }
                 getRefText(node, config) {
