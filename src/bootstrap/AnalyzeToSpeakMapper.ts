@@ -18,6 +18,8 @@ import { LabelledSpeaker } from "../speak/LabelledSpeaker";
 import { InputSpeaker } from "../speak/InputSpeaker";
 import { InputAnalyzer } from "../analyze/InputAnalyzer";
 import { InputTextSpeaker } from "../speak/InputTextSpeaker";
+import { LabelAnalyzer } from "../analyze/LabelAnalyzer";
+import { LabelSpeaker } from "../speak/LabelSpeaker";
 
 export class AnalyzeToSpeakMapper {
     public getMap(): Map<AbstractAnalyzer, SpeakerInterface> {
@@ -33,6 +35,7 @@ export class AnalyzeToSpeakMapper {
         map.set(new LinkAnalyzer(), new LinkSpeaker(textSpeaker));
         map.set(new ButtonAnalyzer(), new ButtonSpeaker(textSpeaker));
         map.set(new ImageAnalyzer(window), new ImageSpeaker(labelledSpeaker));
+        map.set(new LabelAnalyzer(), new LabelSpeaker(textSpeaker));
         map.set(new CheckboxAnalyzer(), new CheckboxSpeaker(inputSpeaker));
         map.set(new InputAnalyzer(), new InputTextSpeaker(inputSpeaker));
         map.set(new TextAnalyzer(), textSpeaker);

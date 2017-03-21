@@ -8,7 +8,7 @@ export class InputTextSpeaker implements SpeakerInterface {
         let inputText = this.inputSpeaker.getText(node);
         let typeText = node.type;
         
-        let placeholder = node.placeholder;
+        let placeholder = node.placeholder || node.getAttribute("aria-placeholder");
         let placeholderText = placeholder ? ` Placeholder is: ${placeholder}.` : '';
         
         let value = node.value;
