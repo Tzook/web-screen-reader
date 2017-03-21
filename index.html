@@ -7,8 +7,8 @@
 		<meta name="description" content="A free Web Screen Reader that improves a site's accessibility for the blind or the visually impaired.'">
 		<meta name="keywords" content="Screen Reader, Accessibility, Blind, Visually Impaired, Free, Web">
 		<meta name="viewport" content="width=device-width">
-		<link rel="icon" type="image/png" sizes="24x24" href="./favicon.ico">
-		<link rel="stylesheet" href="./bootstrap.min.css">
+		<link rel="icon" type="image/png" sizes="24x24" href="./browser/favicon.ico">
+		<link rel="stylesheet" href="./browser/bootstrap.min.css">
         <style>
             body {
                 text-align: center;
@@ -59,7 +59,7 @@
                 <h2>1. Simply <u>hover</u> me to read me out loud</h2>
                 <h2><a href="/not-a-real-url-haha" target="_blank">2. I will let you know what type I am</a></h2>
                 
-                <img src="./heart.png" title="A heart - You will get a description of what the image is">
+                <img src="./browser/heart.png" title="A heart - You will get a description of what the image is">
                 
                 <h2><input class="form-control" placeholder="Another way to read content is to use Tab" autofocus></h2>
                 <h2><input class="form-control" type="email" value="You'll know the current value"></h2>
@@ -118,8 +118,8 @@
 
         </main>
         
-        <script src="../node_modules/systemjs/dist/system.src.js"></script>
-        <script src="../bundle.js"></script>
+        <script src="./node_modules/systemjs/dist/system.src.js"></script>
+        <script src="./bundle.js"></script>
         <script>System.load("Main");</script>
     </body>
 </html>
