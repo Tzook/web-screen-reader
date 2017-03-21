@@ -15,7 +15,7 @@ export abstract class AbstractInputHandler {
     protected getSpeakText(element: HTMLElement): string {
         let usedAnalyzer = this.analyzer.handle(element);
         let speaker = this.analyzeToSpeakMap.get(usedAnalyzer);
-        let speakText = speaker.getText(element);
+        let speakText = speaker.getText(element, {checkRef: true});
         return speakText;
     }
 }

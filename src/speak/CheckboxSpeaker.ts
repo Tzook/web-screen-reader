@@ -1,11 +1,12 @@
 import { SpeakerInterface } from "./SpeakerInterface";
+import { SpeakConfigInterface } from "./SpeakConfigInterface";
 import { InputSpeaker } from "./InputSpeaker";
 
 export class CheckboxSpeaker implements SpeakerInterface {
     constructor(private inputSpeaker: InputSpeaker) { }
 
-    public getText(node: HTMLInputElement): string {
-        let inputText = this.inputSpeaker.getText(node);
+    public getText(node: HTMLInputElement, config: SpeakConfigInterface): string {
+        let inputText = this.inputSpeaker.getText(node, config);
         let isChecked = this.isChecked(node);
         let checkedText = ` Currently ${isChecked ? "" : "not "}Checked.`;
         return `Checkbox.. ` + inputText + checkedText;

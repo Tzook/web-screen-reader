@@ -33,16 +33,25 @@ System.register("analyze/AbstractAnalyzer", [], function (exports_2, context_2) 
         }
     };
 });
-System.register("speak/SpeakerInterface", [], function (exports_3, context_3) {
+System.register("speak/SpeakConfigInterface", [], function (exports_3, context_3) {
     var __moduleName = context_3 && context_3.id;
+    return {
+        setters: [],
+        execute: function () {
+            ;
+        }
+    };
+});
+System.register("speak/SpeakerInterface", [], function (exports_4, context_4) {
+    var __moduleName = context_4 && context_4.id;
     return {
         setters: [],
         execute: function () {
         }
     };
 });
-System.register("analyze/LinkAnalyzer", ["analyze/AbstractAnalyzer"], function (exports_4, context_4) {
-    var __moduleName = context_4 && context_4.id;
+System.register("analyze/LinkAnalyzer", ["analyze/AbstractAnalyzer"], function (exports_5, context_5) {
+    var __moduleName = context_5 && context_5.id;
     var AbstractAnalyzer_1, LinkAnalyzer;
     return {
         setters: [
@@ -60,29 +69,31 @@ System.register("analyze/LinkAnalyzer", ["analyze/AbstractAnalyzer"], function (
                     return "link";
                 }
             };
-            exports_4("LinkAnalyzer", LinkAnalyzer);
+            exports_5("LinkAnalyzer", LinkAnalyzer);
         }
     };
 });
-System.register("speak/LabelledSpeaker", [], function (exports_5, context_5) {
-    var __moduleName = context_5 && context_5.id;
+System.register("speak/LabelledSpeaker", [], function (exports_6, context_6) {
+    var __moduleName = context_6 && context_6.id;
     var LabelledSpeaker;
     return {
         setters: [],
         execute: function () {
             LabelledSpeaker = class LabelledSpeaker {
-                getText(node) {
+                getText(node, config) {
+                    let refLabel = node.getAttribute("aria-labelledby") || node.getAttribute("aria-describedby");
+                    if (refLabel) {
+                    }
                     let text = node.getAttribute("aria-label");
-                    // * add aria-labelledby and aria-describedby
                     return text;
                 }
             };
-            exports_5("LabelledSpeaker", LabelledSpeaker);
+            exports_6("LabelledSpeaker", LabelledSpeaker);
         }
     };
 });
-System.register("speak/TextSpeaker", [], function (exports_6, context_6) {
-    var __moduleName = context_6 && context_6.id;
+System.register("speak/TextSpeaker", [], function (exports_7, context_7) {
+    var __moduleName = context_7 && context_7.id;
     var TextSpeaker;
     return {
         setters: [],
@@ -91,8 +102,8 @@ System.register("speak/TextSpeaker", [], function (exports_6, context_6) {
                 constructor(labelledSpeaker) {
                     this.labelledSpeaker = labelledSpeaker;
                 }
-                getText(node) {
-                    let text = this.labelledSpeaker.getText(node)
+                getText(node, config) {
+                    let text = this.labelledSpeaker.getText(node, config)
                         || (node.title
                             || node.innerText
                             || node.textContent // like svg
@@ -101,12 +112,12 @@ System.register("speak/TextSpeaker", [], function (exports_6, context_6) {
                     return text ? `${text}.` : ``;
                 }
             };
-            exports_6("TextSpeaker", TextSpeaker);
+            exports_7("TextSpeaker", TextSpeaker);
         }
     };
 });
-System.register("speak/LinkSpeaker", [], function (exports_7, context_7) {
-    var __moduleName = context_7 && context_7.id;
+System.register("speak/LinkSpeaker", [], function (exports_8, context_8) {
+    var __moduleName = context_8 && context_8.id;
     var LinkSpeaker;
     return {
         setters: [],
@@ -115,17 +126,17 @@ System.register("speak/LinkSpeaker", [], function (exports_7, context_7) {
                 constructor(textSpeaker) {
                     this.textSpeaker = textSpeaker;
                 }
-                getText(node) {
-                    let text = this.textSpeaker.getText(node);
+                getText(node, config) {
+                    let text = this.textSpeaker.getText(node, config);
                     return `Link..` + (text ? ` ${text}` : '');
                 }
             };
-            exports_7("LinkSpeaker", LinkSpeaker);
+            exports_8("LinkSpeaker", LinkSpeaker);
         }
     };
 });
-System.register("analyze/ButtonAnalyzer", ["analyze/AbstractAnalyzer"], function (exports_8, context_8) {
-    var __moduleName = context_8 && context_8.id;
+System.register("analyze/ButtonAnalyzer", ["analyze/AbstractAnalyzer"], function (exports_9, context_9) {
+    var __moduleName = context_9 && context_9.id;
     var AbstractAnalyzer_2, ButtonAnalyzer;
     return {
         setters: [
@@ -158,12 +169,12 @@ System.register("analyze/ButtonAnalyzer", ["analyze/AbstractAnalyzer"], function
                     return /button|btn|click/i.test(value);
                 }
             };
-            exports_8("ButtonAnalyzer", ButtonAnalyzer);
+            exports_9("ButtonAnalyzer", ButtonAnalyzer);
         }
     };
 });
-System.register("speak/ButtonSpeaker", [], function (exports_9, context_9) {
-    var __moduleName = context_9 && context_9.id;
+System.register("speak/ButtonSpeaker", [], function (exports_10, context_10) {
+    var __moduleName = context_10 && context_10.id;
     var ButtonSpeaker;
     return {
         setters: [],
@@ -172,17 +183,17 @@ System.register("speak/ButtonSpeaker", [], function (exports_9, context_9) {
                 constructor(textSpeaker) {
                     this.textSpeaker = textSpeaker;
                 }
-                getText(node) {
-                    let text = this.textSpeaker.getText(node);
+                getText(node, config) {
+                    let text = this.textSpeaker.getText(node, config);
                     return `Button..` + (text ? ` ${text}` : '');
                 }
             };
-            exports_9("ButtonSpeaker", ButtonSpeaker);
+            exports_10("ButtonSpeaker", ButtonSpeaker);
         }
     };
 });
-System.register("analyze/TextAnalyzer", ["analyze/AbstractAnalyzer"], function (exports_10, context_10) {
-    var __moduleName = context_10 && context_10.id;
+System.register("analyze/TextAnalyzer", ["analyze/AbstractAnalyzer"], function (exports_11, context_11) {
+    var __moduleName = context_11 && context_11.id;
     var AbstractAnalyzer_3, TextAnalyzer;
     return {
         setters: [
@@ -209,27 +220,27 @@ System.register("analyze/TextAnalyzer", ["analyze/AbstractAnalyzer"], function (
                     return "text";
                 }
             };
-            exports_10("TextAnalyzer", TextAnalyzer);
+            exports_11("TextAnalyzer", TextAnalyzer);
         }
     };
 });
-System.register("speak/NullSpeaker", [], function (exports_11, context_11) {
-    var __moduleName = context_11 && context_11.id;
+System.register("speak/NullSpeaker", [], function (exports_12, context_12) {
+    var __moduleName = context_12 && context_12.id;
     var NullSpeaker;
     return {
         setters: [],
         execute: function () {
             NullSpeaker = class NullSpeaker {
-                getText(node) {
+                getText(node, config) {
                     return "";
                 }
             };
-            exports_11("NullSpeaker", NullSpeaker);
+            exports_12("NullSpeaker", NullSpeaker);
         }
     };
 });
-System.register("analyze/TrueAnalyzer", ["analyze/AbstractAnalyzer"], function (exports_12, context_12) {
-    var __moduleName = context_12 && context_12.id;
+System.register("analyze/TrueAnalyzer", ["analyze/AbstractAnalyzer"], function (exports_13, context_13) {
+    var __moduleName = context_13 && context_13.id;
     var AbstractAnalyzer_4, TrueAnalyzer;
     return {
         setters: [
@@ -247,12 +258,12 @@ System.register("analyze/TrueAnalyzer", ["analyze/AbstractAnalyzer"], function (
                     return "";
                 }
             };
-            exports_12("TrueAnalyzer", TrueAnalyzer);
+            exports_13("TrueAnalyzer", TrueAnalyzer);
         }
     };
 });
-System.register("analyze/HiddenAnalyzer", ["analyze/AbstractAnalyzer"], function (exports_13, context_13) {
-    var __moduleName = context_13 && context_13.id;
+System.register("analyze/HiddenAnalyzer", ["analyze/AbstractAnalyzer"], function (exports_14, context_14) {
+    var __moduleName = context_14 && context_14.id;
     var AbstractAnalyzer_5, HiddenAnalyzer;
     return {
         setters: [
@@ -273,12 +284,12 @@ System.register("analyze/HiddenAnalyzer", ["analyze/AbstractAnalyzer"], function
                     return !node.offsetParent && node.offsetWidth === 0 && node.offsetHeight === 0;
                 }
             };
-            exports_13("HiddenAnalyzer", HiddenAnalyzer);
+            exports_14("HiddenAnalyzer", HiddenAnalyzer);
         }
     };
 });
-System.register("analyze/ImageAnalyzer", ["analyze/AbstractAnalyzer"], function (exports_14, context_14) {
-    var __moduleName = context_14 && context_14.id;
+System.register("analyze/ImageAnalyzer", ["analyze/AbstractAnalyzer"], function (exports_15, context_15) {
+    var __moduleName = context_15 && context_15.id;
     var AbstractAnalyzer_6, ImageAnalyzer;
     return {
         setters: [
@@ -310,12 +321,12 @@ System.register("analyze/ImageAnalyzer", ["analyze/AbstractAnalyzer"], function 
                     return style.indexOf("url(") !== -1;
                 }
             };
-            exports_14("ImageAnalyzer", ImageAnalyzer);
+            exports_15("ImageAnalyzer", ImageAnalyzer);
         }
     };
 });
-System.register("speak/ImageSpeaker", [], function (exports_15, context_15) {
-    var __moduleName = context_15 && context_15.id;
+System.register("speak/ImageSpeaker", [], function (exports_16, context_16) {
+    var __moduleName = context_16 && context_16.id;
     var ImageSpeaker;
     return {
         setters: [],
@@ -324,17 +335,17 @@ System.register("speak/ImageSpeaker", [], function (exports_15, context_15) {
                 constructor(labelledSpeaker) {
                     this.labelledSpeaker = labelledSpeaker;
                 }
-                getText(node) {
-                    let text = this.labelledSpeaker.getText(node) || node.title || node.alt;
+                getText(node, config) {
+                    let text = this.labelledSpeaker.getText(node, config) || node.title || node.alt;
                     return `Image..` + (text ? ` ${text}.` : ``);
                 }
             };
-            exports_15("ImageSpeaker", ImageSpeaker);
+            exports_16("ImageSpeaker", ImageSpeaker);
         }
     };
 });
-System.register("analyze/CheckboxAnalyzer", ["analyze/AbstractAnalyzer"], function (exports_16, context_16) {
-    var __moduleName = context_16 && context_16.id;
+System.register("analyze/CheckboxAnalyzer", ["analyze/AbstractAnalyzer"], function (exports_17, context_17) {
+    var __moduleName = context_17 && context_17.id;
     var AbstractAnalyzer_7, CheckboxAnalyzer;
     return {
         setters: [
@@ -352,12 +363,12 @@ System.register("analyze/CheckboxAnalyzer", ["analyze/AbstractAnalyzer"], functi
                     return "checkbox";
                 }
             };
-            exports_16("CheckboxAnalyzer", CheckboxAnalyzer);
+            exports_17("CheckboxAnalyzer", CheckboxAnalyzer);
         }
     };
 });
-System.register("speak/InputSpeaker", [], function (exports_17, context_17) {
-    var __moduleName = context_17 && context_17.id;
+System.register("speak/InputSpeaker", [], function (exports_18, context_18) {
+    var __moduleName = context_18 && context_18.id;
     var InputSpeaker;
     return {
         setters: [],
@@ -366,18 +377,18 @@ System.register("speak/InputSpeaker", [], function (exports_17, context_17) {
                 constructor(labelledSpeaker) {
                     this.labelledSpeaker = labelledSpeaker;
                 }
-                getText(node) {
-                    let text = this.labelledSpeaker.getText(node)
+                getText(node, config) {
+                    let text = this.labelledSpeaker.getText(node, config)
                         || (node.name ? `${node.name}.` : ``);
                     return text;
                 }
             };
-            exports_17("InputSpeaker", InputSpeaker);
+            exports_18("InputSpeaker", InputSpeaker);
         }
     };
 });
-System.register("speak/CheckboxSpeaker", [], function (exports_18, context_18) {
-    var __moduleName = context_18 && context_18.id;
+System.register("speak/CheckboxSpeaker", [], function (exports_19, context_19) {
+    var __moduleName = context_19 && context_19.id;
     var CheckboxSpeaker;
     return {
         setters: [],
@@ -386,8 +397,8 @@ System.register("speak/CheckboxSpeaker", [], function (exports_18, context_18) {
                 constructor(inputSpeaker) {
                     this.inputSpeaker = inputSpeaker;
                 }
-                getText(node) {
-                    let inputText = this.inputSpeaker.getText(node);
+                getText(node, config) {
+                    let inputText = this.inputSpeaker.getText(node, config);
                     let isChecked = this.isChecked(node);
                     let checkedText = ` Currently ${isChecked ? "" : "not "}Checked.`;
                     return `Checkbox.. ` + inputText + checkedText;
@@ -404,12 +415,12 @@ System.register("speak/CheckboxSpeaker", [], function (exports_18, context_18) {
                     return isChecked;
                 }
             };
-            exports_18("CheckboxSpeaker", CheckboxSpeaker);
+            exports_19("CheckboxSpeaker", CheckboxSpeaker);
         }
     };
 });
-System.register("analyze/InputAnalyzer", ["analyze/AbstractAnalyzer"], function (exports_19, context_19) {
-    var __moduleName = context_19 && context_19.id;
+System.register("analyze/InputAnalyzer", ["analyze/AbstractAnalyzer"], function (exports_20, context_20) {
+    var __moduleName = context_20 && context_20.id;
     var AbstractAnalyzer_8, InputAnalyzer;
     return {
         setters: [
@@ -426,12 +437,12 @@ System.register("analyze/InputAnalyzer", ["analyze/AbstractAnalyzer"], function 
                     return "textbox";
                 }
             };
-            exports_19("InputAnalyzer", InputAnalyzer);
+            exports_20("InputAnalyzer", InputAnalyzer);
         }
     };
 });
-System.register("speak/InputTextSpeaker", [], function (exports_20, context_20) {
-    var __moduleName = context_20 && context_20.id;
+System.register("speak/InputTextSpeaker", [], function (exports_21, context_21) {
+    var __moduleName = context_21 && context_21.id;
     var InputTextSpeaker;
     return {
         setters: [],
@@ -440,8 +451,8 @@ System.register("speak/InputTextSpeaker", [], function (exports_20, context_20) 
                 constructor(inputSpeaker) {
                     this.inputSpeaker = inputSpeaker;
                 }
-                getText(node) {
-                    let inputText = this.inputSpeaker.getText(node);
+                getText(node, config) {
+                    let inputText = this.inputSpeaker.getText(node, config);
                     let typeText = node.type;
                     let placeholder = node.placeholder || node.getAttribute("aria-placeholder");
                     let placeholderText = placeholder ? ` Placeholder is: ${placeholder}.` : '';
@@ -450,12 +461,12 @@ System.register("speak/InputTextSpeaker", [], function (exports_20, context_20) 
                     return `${typeText} input.. ` + inputText + placeholderText + valueText;
                 }
             };
-            exports_20("InputTextSpeaker", InputTextSpeaker);
+            exports_21("InputTextSpeaker", InputTextSpeaker);
         }
     };
 });
-System.register("analyze/LabelAnalyzer", ["analyze/AbstractAnalyzer"], function (exports_21, context_21) {
-    var __moduleName = context_21 && context_21.id;
+System.register("analyze/LabelAnalyzer", ["analyze/AbstractAnalyzer"], function (exports_22, context_22) {
+    var __moduleName = context_22 && context_22.id;
     var AbstractAnalyzer_9, LabelAnalyzer;
     return {
         setters: [
@@ -472,12 +483,12 @@ System.register("analyze/LabelAnalyzer", ["analyze/AbstractAnalyzer"], function 
                     return "label"; // label actually is not officially supported yet
                 }
             };
-            exports_21("LabelAnalyzer", LabelAnalyzer);
+            exports_22("LabelAnalyzer", LabelAnalyzer);
         }
     };
 });
-System.register("speak/LabelSpeaker", [], function (exports_22, context_22) {
-    var __moduleName = context_22 && context_22.id;
+System.register("speak/LabelSpeaker", [], function (exports_23, context_23) {
+    var __moduleName = context_23 && context_23.id;
     var LabelSpeaker;
     return {
         setters: [],
@@ -486,17 +497,17 @@ System.register("speak/LabelSpeaker", [], function (exports_22, context_22) {
                 constructor(textSpeaker) {
                     this.textSpeaker = textSpeaker;
                 }
-                getText(node) {
-                    let text = this.textSpeaker.getText(node);
+                getText(node, config) {
+                    let text = this.textSpeaker.getText(node, config);
                     return `Label..` + (text ? ` ${text}` : '');
                 }
             };
-            exports_22("LabelSpeaker", LabelSpeaker);
+            exports_23("LabelSpeaker", LabelSpeaker);
         }
     };
 });
-System.register("bootstrap/AnalyzeToSpeakMapper", ["analyze/LinkAnalyzer", "speak/LinkSpeaker", "analyze/ButtonAnalyzer", "speak/ButtonSpeaker", "analyze/TextAnalyzer", "speak/TextSpeaker", "speak/NullSpeaker", "analyze/TrueAnalyzer", "analyze/HiddenAnalyzer", "analyze/ImageAnalyzer", "speak/ImageSpeaker", "analyze/CheckboxAnalyzer", "speak/CheckboxSpeaker", "speak/LabelledSpeaker", "speak/InputSpeaker", "analyze/InputAnalyzer", "speak/InputTextSpeaker", "analyze/LabelAnalyzer", "speak/LabelSpeaker"], function (exports_23, context_23) {
-    var __moduleName = context_23 && context_23.id;
+System.register("bootstrap/AnalyzeToSpeakMapper", ["analyze/LinkAnalyzer", "speak/LinkSpeaker", "analyze/ButtonAnalyzer", "speak/ButtonSpeaker", "analyze/TextAnalyzer", "speak/TextSpeaker", "speak/NullSpeaker", "analyze/TrueAnalyzer", "analyze/HiddenAnalyzer", "analyze/ImageAnalyzer", "speak/ImageSpeaker", "analyze/CheckboxAnalyzer", "speak/CheckboxSpeaker", "speak/LabelledSpeaker", "speak/InputSpeaker", "analyze/InputAnalyzer", "speak/InputTextSpeaker", "analyze/LabelAnalyzer", "speak/LabelSpeaker"], function (exports_24, context_24) {
+    var __moduleName = context_24 && context_24.id;
     var LinkAnalyzer_1, LinkSpeaker_1, ButtonAnalyzer_1, ButtonSpeaker_1, TextAnalyzer_1, TextSpeaker_1, NullSpeaker_1, TrueAnalyzer_1, HiddenAnalyzer_1, ImageAnalyzer_1, ImageSpeaker_1, CheckboxAnalyzer_1, CheckboxSpeaker_1, LabelledSpeaker_1, InputSpeaker_1, InputAnalyzer_1, InputTextSpeaker_1, LabelAnalyzer_1, LabelSpeaker_1, AnalyzeToSpeakMapper;
     return {
         setters: [
@@ -580,12 +591,12 @@ System.register("bootstrap/AnalyzeToSpeakMapper", ["analyze/LinkAnalyzer", "spea
                     return map;
                 }
             };
-            exports_23("AnalyzeToSpeakMapper", AnalyzeToSpeakMapper);
+            exports_24("AnalyzeToSpeakMapper", AnalyzeToSpeakMapper);
         }
     };
 });
-System.register("patterns/chain-of-responsibility/ChainMaker", [], function (exports_24, context_24) {
-    var __moduleName = context_24 && context_24.id;
+System.register("patterns/chain-of-responsibility/ChainMaker", [], function (exports_25, context_25) {
+    var __moduleName = context_25 && context_25.id;
     var ChainMaker;
     return {
         setters: [],
@@ -606,12 +617,12 @@ System.register("patterns/chain-of-responsibility/ChainMaker", [], function (exp
                     return firstLink;
                 }
             };
-            exports_24("ChainMaker", ChainMaker);
+            exports_25("ChainMaker", ChainMaker);
         }
     };
 });
-System.register("output/AbstractOutputHandler", [], function (exports_25, context_25) {
-    var __moduleName = context_25 && context_25.id;
+System.register("output/AbstractOutputHandler", [], function (exports_26, context_26) {
+    var __moduleName = context_26 && context_26.id;
     var AbstractOutputHandler;
     return {
         setters: [],
@@ -623,12 +634,12 @@ System.register("output/AbstractOutputHandler", [], function (exports_25, contex
                 init() { }
                 ;
             };
-            exports_25("AbstractOutputHandler", AbstractOutputHandler);
+            exports_26("AbstractOutputHandler", AbstractOutputHandler);
         }
     };
 });
-System.register("output/SpeechSynthesisUtteranceOutputHandler", ["output/AbstractOutputHandler"], function (exports_26, context_26) {
-    var __moduleName = context_26 && context_26.id;
+System.register("output/SpeechSynthesisUtteranceOutputHandler", ["output/AbstractOutputHandler"], function (exports_27, context_27) {
+    var __moduleName = context_27 && context_27.id;
     var AbstractOutputHandler_1, SpeechSynthesisUtteranceOutputHandler;
     return {
         setters: [
@@ -651,12 +662,12 @@ System.register("output/SpeechSynthesisUtteranceOutputHandler", ["output/Abstrac
                     window.speechSynthesis.cancel();
                 }
             };
-            exports_26("SpeechSynthesisUtteranceOutputHandler", SpeechSynthesisUtteranceOutputHandler);
+            exports_27("SpeechSynthesisUtteranceOutputHandler", SpeechSynthesisUtteranceOutputHandler);
         }
     };
 });
-System.register("input/AbstractInputHandler", [], function (exports_27, context_27) {
-    var __moduleName = context_27 && context_27.id;
+System.register("input/AbstractInputHandler", [], function (exports_28, context_28) {
+    var __moduleName = context_28 && context_28.id;
     var AbstractInputHandler;
     return {
         setters: [],
@@ -671,16 +682,16 @@ System.register("input/AbstractInputHandler", [], function (exports_27, context_
                 getSpeakText(element) {
                     let usedAnalyzer = this.analyzer.handle(element);
                     let speaker = this.analyzeToSpeakMap.get(usedAnalyzer);
-                    let speakText = speaker.getText(element);
+                    let speakText = speaker.getText(element, { checkRef: true });
                     return speakText;
                 }
             };
-            exports_27("AbstractInputHandler", AbstractInputHandler);
+            exports_28("AbstractInputHandler", AbstractInputHandler);
         }
     };
 });
-System.register("input/AbstractEventInputHandler", ["input/AbstractInputHandler"], function (exports_28, context_28) {
-    var __moduleName = context_28 && context_28.id;
+System.register("input/AbstractEventInputHandler", ["input/AbstractInputHandler"], function (exports_29, context_29) {
+    var __moduleName = context_29 && context_29.id;
     var AbstractInputHandler_1, AbstractEventInputHandler;
     return {
         setters: [
@@ -707,12 +718,12 @@ System.register("input/AbstractEventInputHandler", ["input/AbstractInputHandler"
                     }
                 }
             };
-            exports_28("AbstractEventInputHandler", AbstractEventInputHandler);
+            exports_29("AbstractEventInputHandler", AbstractEventInputHandler);
         }
     };
 });
-System.register("input/MouseMoveInputHandler", ["input/AbstractEventInputHandler"], function (exports_29, context_29) {
-    var __moduleName = context_29 && context_29.id;
+System.register("input/MouseMoveInputHandler", ["input/AbstractEventInputHandler"], function (exports_30, context_30) {
+    var __moduleName = context_30 && context_30.id;
     var AbstractEventInputHandler_1, MouseMoveInputHandler;
     return {
         setters: [
@@ -729,12 +740,12 @@ System.register("input/MouseMoveInputHandler", ["input/AbstractEventInputHandler
                     return "mouseover";
                 }
             };
-            exports_29("MouseMoveInputHandler", MouseMoveInputHandler);
+            exports_30("MouseMoveInputHandler", MouseMoveInputHandler);
         }
     };
 });
-System.register("input/TabInputHandler", ["input/AbstractEventInputHandler"], function (exports_30, context_30) {
-    var __moduleName = context_30 && context_30.id;
+System.register("input/TabInputHandler", ["input/AbstractEventInputHandler"], function (exports_31, context_31) {
+    var __moduleName = context_31 && context_31.id;
     var AbstractEventInputHandler_2, TAB_KEYCODE, TabInputHandler;
     return {
         setters: [
@@ -754,12 +765,12 @@ System.register("input/TabInputHandler", ["input/AbstractEventInputHandler"], fu
                     return "keyup";
                 }
             };
-            exports_30("TabInputHandler", TabInputHandler);
+            exports_31("TabInputHandler", TabInputHandler);
         }
     };
 });
-System.register("mutation-handlers/AbstractMutationHandler", [], function (exports_31, context_31) {
-    var __moduleName = context_31 && context_31.id;
+System.register("mutation-handlers/AbstractMutationHandler", [], function (exports_32, context_32) {
+    var __moduleName = context_32 && context_32.id;
     var AbstractMutationHandler;
     return {
         setters: [],
@@ -775,13 +786,13 @@ System.register("mutation-handlers/AbstractMutationHandler", [], function (expor
                     this.successor = successor;
                 }
             };
-            exports_31("AbstractMutationHandler", AbstractMutationHandler);
+            exports_32("AbstractMutationHandler", AbstractMutationHandler);
             ;
         }
     };
 });
-System.register("input/MutationObserverInputHandler", ["input/AbstractInputHandler"], function (exports_32, context_32) {
-    var __moduleName = context_32 && context_32.id;
+System.register("input/MutationObserverInputHandler", ["input/AbstractInputHandler"], function (exports_33, context_33) {
+    var __moduleName = context_33 && context_33.id;
     var AbstractInputHandler_2, MutationObserverInputHandler;
     return {
         setters: [
@@ -832,12 +843,12 @@ System.register("input/MutationObserverInputHandler", ["input/AbstractInputHandl
                     this.observer.disconnect();
                 }
             };
-            exports_32("MutationObserverInputHandler", MutationObserverInputHandler);
+            exports_33("MutationObserverInputHandler", MutationObserverInputHandler);
         }
     };
 });
-System.register("bootstrap/InputListGetter", ["input/MouseMoveInputHandler", "input/TabInputHandler", "input/MutationObserverInputHandler"], function (exports_33, context_33) {
-    var __moduleName = context_33 && context_33.id;
+System.register("bootstrap/InputListGetter", ["input/MouseMoveInputHandler", "input/TabInputHandler", "input/MutationObserverInputHandler"], function (exports_34, context_34) {
+    var __moduleName = context_34 && context_34.id;
     var MouseMoveInputHandler_1, TabInputHandler_1, MutationObserverInputHandler_1, InputListGetter;
     return {
         setters: [
@@ -868,12 +879,12 @@ System.register("bootstrap/InputListGetter", ["input/MouseMoveInputHandler", "in
                     ];
                 }
             };
-            exports_33("InputListGetter", InputListGetter);
+            exports_34("InputListGetter", InputListGetter);
         }
     };
 });
-System.register("mutation-handlers/AddedNodesMutationHandler", ["mutation-handlers/AbstractMutationHandler"], function (exports_34, context_34) {
-    var __moduleName = context_34 && context_34.id;
+System.register("mutation-handlers/AddedNodesMutationHandler", ["mutation-handlers/AbstractMutationHandler"], function (exports_35, context_35) {
+    var __moduleName = context_35 && context_35.id;
     var AbstractMutationHandler_1, AddedNodesMutationHandler;
     return {
         setters: [
@@ -905,13 +916,13 @@ System.register("mutation-handlers/AddedNodesMutationHandler", ["mutation-handle
                     }
                 }
             };
-            exports_34("AddedNodesMutationHandler", AddedNodesMutationHandler);
+            exports_35("AddedNodesMutationHandler", AddedNodesMutationHandler);
             ;
         }
     };
 });
-System.register("mutation-handlers/TextMutationHandler", ["mutation-handlers/AbstractMutationHandler"], function (exports_35, context_35) {
-    var __moduleName = context_35 && context_35.id;
+System.register("mutation-handlers/TextMutationHandler", ["mutation-handlers/AbstractMutationHandler"], function (exports_36, context_36) {
+    var __moduleName = context_36 && context_36.id;
     var AbstractMutationHandler_2, TextMutationHandler;
     return {
         setters: [
@@ -933,13 +944,13 @@ System.register("mutation-handlers/TextMutationHandler", ["mutation-handlers/Abs
                     return isText;
                 }
             };
-            exports_35("TextMutationHandler", TextMutationHandler);
+            exports_36("TextMutationHandler", TextMutationHandler);
             ;
         }
     };
 });
-System.register("bootstrap/MutationHandlersListGetter", ["mutation-handlers/AddedNodesMutationHandler", "mutation-handlers/TextMutationHandler"], function (exports_36, context_36) {
-    var __moduleName = context_36 && context_36.id;
+System.register("bootstrap/MutationHandlersListGetter", ["mutation-handlers/AddedNodesMutationHandler", "mutation-handlers/TextMutationHandler"], function (exports_37, context_37) {
+    var __moduleName = context_37 && context_37.id;
     var AddedNodesMutationHandler_1, TextMutationHandler_1, MutationHandlersListGetter;
     return {
         setters: [
@@ -959,12 +970,12 @@ System.register("bootstrap/MutationHandlersListGetter", ["mutation-handlers/Adde
                     ];
                 }
             };
-            exports_36("MutationHandlersListGetter", MutationHandlersListGetter);
+            exports_37("MutationHandlersListGetter", MutationHandlersListGetter);
         }
     };
 });
-System.register("bootstrap/Bootstrap", ["bootstrap/AnalyzeToSpeakMapper", "patterns/chain-of-responsibility/ChainMaker", "output/SpeechSynthesisUtteranceOutputHandler", "bootstrap/InputListGetter", "bootstrap/MutationHandlersListGetter"], function (exports_37, context_37) {
-    var __moduleName = context_37 && context_37.id;
+System.register("bootstrap/Bootstrap", ["bootstrap/AnalyzeToSpeakMapper", "patterns/chain-of-responsibility/ChainMaker", "output/SpeechSynthesisUtteranceOutputHandler", "bootstrap/InputListGetter", "bootstrap/MutationHandlersListGetter"], function (exports_38, context_38) {
+    var __moduleName = context_38 && context_38.id;
     var AnalyzeToSpeakMapper_1, ChainMaker_1, SpeechSynthesisUtteranceOutputHandler_1, InputListGetter_1, MutationHandlersListGetter_1, Bootstrap;
     return {
         setters: [
@@ -999,12 +1010,12 @@ System.register("bootstrap/Bootstrap", ["bootstrap/AnalyzeToSpeakMapper", "patte
                     }
                 }
             };
-            exports_37("Bootstrap", Bootstrap);
+            exports_38("Bootstrap", Bootstrap);
         }
     };
 });
-System.register("Main", ["bootstrap/Bootstrap"], function (exports_38, context_38) {
-    var __moduleName = context_38 && context_38.id;
+System.register("Main", ["bootstrap/Bootstrap"], function (exports_39, context_39) {
+    var __moduleName = context_39 && context_39.id;
     var Bootstrap_1;
     return {
         setters: [
