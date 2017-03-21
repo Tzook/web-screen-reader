@@ -1,7 +1,6 @@
-import { AbstractAnalyzer } from "../analyze/AbstractAnalyzer";
-import { SpeakerInterface } from "../speak/SpeakerInterface";
 import { AbstractInputHandler } from "./AbstractInputHandler";
 import { AbstractOutputHandler } from "../output/AbstractOutputHandler";
+import { ElementToTextMediator } from "../mediator/ElementToTextMediator";
 import { AbstractMutationHandler } from "../mutation-handlers/AbstractMutationHandler";
 
 export class MutationObserverInputHandler extends AbstractInputHandler {
@@ -9,10 +8,9 @@ export class MutationObserverInputHandler extends AbstractInputHandler {
 
     constructor(protected window: Window,
         protected outputHandler: AbstractOutputHandler,
-        protected analyzer: AbstractAnalyzer,
-        protected analyzeToSpeakMap: Map<AbstractAnalyzer, SpeakerInterface>,
+        protected elementToTextMediator: ElementToTextMediator,
         protected mutationHandler: AbstractMutationHandler) {
-        super(window, outputHandler, analyzer, analyzeToSpeakMap);
+        super(window, outputHandler, elementToTextMediator);
     }
 
     public enableInput(): void {

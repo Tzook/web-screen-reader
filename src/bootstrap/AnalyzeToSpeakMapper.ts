@@ -1,3 +1,5 @@
+import { ElementToTextMediator } from "../mediator/ElementToTextMediator";
+import { GetterByIds } from "../dom/GetterByIds";
 import { AbstractAnalyzer } from "../analyze/AbstractAnalyzer";
 import { SpeakerInterface } from "../speak/SpeakerInterface";
 
@@ -22,12 +24,15 @@ import { LabelAnalyzer } from "../analyze/LabelAnalyzer";
 import { LabelSpeaker } from "../speak/LabelSpeaker";
 
 export class AnalyzeToSpeakMapper {
+    constructor(private elementToTextMediator: ElementToTextMediator,
+        private getterByIds: GetterByIds) { }
+
     public getMap(): Map<AbstractAnalyzer, SpeakerInterface> {
         // the order of the items is the order that nodes are being analyzed until one of them is truthy
         let map: Map<AbstractAnalyzer, SpeakerInterface> = new Map();
 
         let nullSpeaker = new NullSpeaker();
-        let labelledSpeaker = new LabelledSpeaker();
+        let labelledSpeaker = new LabelledSpeaker(this.elementToTextMediator, this.getterByIds);
         let textSpeaker = new TextSpeaker(labelledSpeaker);
         let inputSpeaker = new InputSpeaker(labelledSpeaker);
         
@@ -35,7 +40,7 @@ export class AnalyzeToSpeakMapper {
         map.set(new LinkAnalyzer(), new LinkSpeaker(textSpeaker));
         map.set(new ButtonAnalyzer(), new ButtonSpeaker(textSpeaker));
         map.set(new ImageAnalyzer(window), new ImageSpeaker(labelledSpeaker));
-        map.set(new LabelAnalyzer(), new LabelSpeaker(textSpeaker));
+        map.set(new LabelAnalyzer(), new LabelSpeaker(this.elementToTextMediator, this.getterByIds, textSpeaker));
         map.set(new CheckboxAnalyzer(), new CheckboxSpeaker(inputSpeaker));
         map.set(new InputAnalyzer(), new InputTextSpeaker(inputSpeaker));
         map.set(new TextAnalyzer(), textSpeaker);

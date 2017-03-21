@@ -1,4 +1,4 @@
-import { ProcessingLinkInterface } from "../patterns/chain-of-responsibility/ProcessingLinkInterface";
+import { ProcessingLinkInterface } from "../chain-of-responsibility/ProcessingLinkInterface";
 
 export abstract class AbstractAnalyzer implements ProcessingLinkInterface {
     private successor: AbstractAnalyzer;

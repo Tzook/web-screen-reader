@@ -1,21 +1,17 @@
-import { AbstractAnalyzer } from "../analyze/AbstractAnalyzer";
-import { SpeakerInterface } from "../speak/SpeakerInterface";
 import { AbstractOutputHandler } from "../output/AbstractOutputHandler";
+import { ElementToTextMediator } from "../mediator/ElementToTextMediator";
 
 export abstract class AbstractInputHandler {
     constructor(protected window: Window,
         protected outputHandler: AbstractOutputHandler,
-        protected analyzer: AbstractAnalyzer, 
-        protected analyzeToSpeakMap: Map<AbstractAnalyzer, SpeakerInterface>) { }
+        protected elementToTextMediator: ElementToTextMediator) { }
 
     public abstract enableInput(): void;
 
     public abstract disableInput(): void;
 
     protected getSpeakText(element: HTMLElement): string {
-        let usedAnalyzer = this.analyzer.handle(element);
-        let speaker = this.analyzeToSpeakMap.get(usedAnalyzer);
-        let speakText = speaker.getText(element, {checkRef: true});
-        return speakText;
+        let text = this.elementToTextMediator.getText(element, {checkRef: true});
+        return text;
     }
 }

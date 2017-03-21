@@ -3,22 +3,20 @@ import { MouseMoveInputHandler } from "../input/MouseMoveInputHandler";
 import { TabInputHandler } from "../input/TabInputHandler";
 import { AbstractOutputHandler } from "../output/AbstractOutputHandler";
 import { MutationObserverInputHandler } from "../input/MutationObserverInputHandler";
-import { SpeakerInterface } from "../speak/SpeakerInterface";
-import { AbstractAnalyzer } from "../analyze/AbstractAnalyzer";
+import { ElementToTextMediator } from "../mediator/ElementToTextMediator";
 import { AbstractMutationHandler } from "../mutation-handlers/AbstractMutationHandler";
 
 export class InputListGetter {
     constructor(private window: Window,
         private outputHandler: AbstractOutputHandler,
-        private analyzer: AbstractAnalyzer, 
-        private analyzeToSpeakMap: Map<AbstractAnalyzer, SpeakerInterface>,
+        private elementToTextMediator: ElementToTextMediator,
         private mutationHandler: AbstractMutationHandler) { }
 
     public getList(): AbstractInputHandler[] {
         return [
-            new MouseMoveInputHandler(this.window, this.outputHandler, this.analyzer, this.analyzeToSpeakMap),
-            new TabInputHandler(this.window, this.outputHandler, this.analyzer, this.analyzeToSpeakMap),
-            new MutationObserverInputHandler(this.window, this.outputHandler, this.analyzer, this.analyzeToSpeakMap, this.mutationHandler),
+            new MouseMoveInputHandler(this.window, this.outputHandler, this.elementToTextMediator),
+            new TabInputHandler(this.window, this.outputHandler, this.elementToTextMediator),
+            new MutationObserverInputHandler(this.window, this.outputHandler, this.elementToTextMediator, this.mutationHandler),
         ];
     }
 }

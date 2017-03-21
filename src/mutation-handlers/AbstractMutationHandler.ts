@@ -1,4 +1,4 @@
-import { ProcessingLinkInterface } from "../patterns/chain-of-responsibility/ProcessingLinkInterface";
+import { ProcessingLinkInterface } from "../chain-of-responsibility/ProcessingLinkInterface";
 
 export abstract class AbstractMutationHandler implements ProcessingLinkInterface {
     private successor: AbstractMutationHandler;
