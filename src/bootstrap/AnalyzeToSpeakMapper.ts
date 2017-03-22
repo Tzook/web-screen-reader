@@ -22,6 +22,8 @@ import { InputAnalyzer } from "../analyze/InputAnalyzer";
 import { InputTextSpeaker } from "../speak/InputTextSpeaker";
 import { LabelAnalyzer } from "../analyze/LabelAnalyzer";
 import { LabelSpeaker } from "../speak/LabelSpeaker";
+import { SelectAnalyzer } from "../analyze/SelectAnalyzer";
+import { SelectSpeaker } from "../speak/SelectSpeaker";
 
 export class AnalyzeToSpeakMapper {
     constructor(private elementToTextMediator: ElementToTextMediator,
@@ -43,6 +45,7 @@ export class AnalyzeToSpeakMapper {
         map.set(new LabelAnalyzer(), new LabelSpeaker(this.elementToTextMediator, this.getterByIds, textSpeaker));
         map.set(new CheckboxAnalyzer(), new CheckboxSpeaker(inputSpeaker));
         map.set(new InputAnalyzer(), new InputTextSpeaker(inputSpeaker));
+        map.set(new SelectAnalyzer(), new SelectSpeaker(textSpeaker, inputSpeaker));
         map.set(new TextAnalyzer(), textSpeaker);
         // wildcard - always last and will catch everything that wasn't handled
         map.set(new TrueAnalyzer(), nullSpeaker);

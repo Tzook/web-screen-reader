@@ -603,9 +603,67 @@ System.register("speak/LabelSpeaker", [], function (exports_25, context_25) {
         }
     };
 });
-System.register("bootstrap/AnalyzeToSpeakMapper", ["analyze/LinkAnalyzer", "speak/LinkSpeaker", "analyze/ButtonAnalyzer", "speak/ButtonSpeaker", "analyze/TextAnalyzer", "speak/TextSpeaker", "speak/NullSpeaker", "analyze/TrueAnalyzer", "analyze/HiddenAnalyzer", "analyze/ImageAnalyzer", "speak/ImageSpeaker", "analyze/CheckboxAnalyzer", "speak/CheckboxSpeaker", "speak/LabelledSpeaker", "speak/InputSpeaker", "analyze/InputAnalyzer", "speak/InputTextSpeaker", "analyze/LabelAnalyzer", "speak/LabelSpeaker"], function (exports_26, context_26) {
+System.register("analyze/SelectAnalyzer", ["analyze/AbstractAnalyzer"], function (exports_26, context_26) {
     var __moduleName = context_26 && context_26.id;
-    var LinkAnalyzer_1, LinkSpeaker_1, ButtonAnalyzer_1, ButtonSpeaker_1, TextAnalyzer_1, TextSpeaker_1, NullSpeaker_1, TrueAnalyzer_1, HiddenAnalyzer_1, ImageAnalyzer_1, ImageSpeaker_1, CheckboxAnalyzer_1, CheckboxSpeaker_1, LabelledSpeaker_1, InputSpeaker_1, InputAnalyzer_1, InputTextSpeaker_1, LabelAnalyzer_1, LabelSpeaker_1, AnalyzeToSpeakMapper;
+    var AbstractAnalyzer_10, SelectAnalyzer;
+    return {
+        setters: [
+            function (AbstractAnalyzer_10_1) {
+                AbstractAnalyzer_10 = AbstractAnalyzer_10_1;
+            }
+        ],
+        execute: function () {
+            SelectAnalyzer = class SelectAnalyzer extends AbstractAnalyzer_10.AbstractAnalyzer {
+                analyze(node) {
+                    let isSelect = node.localName === "select";
+                    return isSelect;
+                }
+                getRole() {
+                    return "listbox";
+                }
+            };
+            exports_26("SelectAnalyzer", SelectAnalyzer);
+        }
+    };
+});
+System.register("speak/SelectSpeaker", [], function (exports_27, context_27) {
+    var __moduleName = context_27 && context_27.id;
+    var SelectSpeaker;
+    return {
+        setters: [],
+        execute: function () {
+            SelectSpeaker = class SelectSpeaker {
+                constructor(textSpeaker, inputSpeaker) {
+                    this.textSpeaker = textSpeaker;
+                    this.inputSpeaker = inputSpeaker;
+                }
+                getText(node, config) {
+                    let inputText = this.inputSpeaker.getText(node, config);
+                    let optionsText = '';
+                    let children = node.children;
+                    for (let i = 0; i < children.length; i++) {
+                        let child = children[i];
+                        if (child instanceof HTMLOptionElement) {
+                            let optionText = this.textSpeaker.getText(child, config);
+                            if (child.selected) {
+                                optionText += " (currently selected)";
+                            }
+                            if (optionText) {
+                                optionsText += `${optionText}..`;
+                            }
+                        }
+                    }
+                    optionsText = optionsText ? `Options are: ${optionsText}` : `There are no options`;
+                    return `Select.. ` + inputText + optionsText;
+                }
+            };
+            exports_27("SelectSpeaker", SelectSpeaker);
+        }
+    };
+});
+System.register("bootstrap/AnalyzeToSpeakMapper", ["analyze/LinkAnalyzer", "speak/LinkSpeaker", "analyze/ButtonAnalyzer", "speak/ButtonSpeaker", "analyze/TextAnalyzer", "speak/TextSpeaker", "speak/NullSpeaker", "analyze/TrueAnalyzer", "analyze/HiddenAnalyzer", "analyze/ImageAnalyzer", "speak/ImageSpeaker", "analyze/CheckboxAnalyzer", "speak/CheckboxSpeaker", "speak/LabelledSpeaker", "speak/InputSpeaker", "analyze/InputAnalyzer", "speak/InputTextSpeaker", "analyze/LabelAnalyzer", "speak/LabelSpeaker", "analyze/SelectAnalyzer", "speak/SelectSpeaker"], function (exports_28, context_28) {
+    var __moduleName = context_28 && context_28.id;
+    var LinkAnalyzer_1, LinkSpeaker_1, ButtonAnalyzer_1, ButtonSpeaker_1, TextAnalyzer_1, TextSpeaker_1, NullSpeaker_1, TrueAnalyzer_1, HiddenAnalyzer_1, ImageAnalyzer_1, ImageSpeaker_1, CheckboxAnalyzer_1, CheckboxSpeaker_1, LabelledSpeaker_1, InputSpeaker_1, InputAnalyzer_1, InputTextSpeaker_1, LabelAnalyzer_1, LabelSpeaker_1, SelectAnalyzer_1, SelectSpeaker_1, AnalyzeToSpeakMapper;
     return {
         setters: [
             function (LinkAnalyzer_1_1) {
@@ -664,6 +722,12 @@ System.register("bootstrap/AnalyzeToSpeakMapper", ["analyze/LinkAnalyzer", "spea
             },
             function (LabelSpeaker_1_1) {
                 LabelSpeaker_1 = LabelSpeaker_1_1;
+            },
+            function (SelectAnalyzer_1_1) {
+                SelectAnalyzer_1 = SelectAnalyzer_1_1;
+            },
+            function (SelectSpeaker_1_1) {
+                SelectSpeaker_1 = SelectSpeaker_1_1;
             }
         ],
         execute: function () {
@@ -686,18 +750,19 @@ System.register("bootstrap/AnalyzeToSpeakMapper", ["analyze/LinkAnalyzer", "spea
                     map.set(new LabelAnalyzer_1.LabelAnalyzer(), new LabelSpeaker_1.LabelSpeaker(this.elementToTextMediator, this.getterByIds, textSpeaker));
                     map.set(new CheckboxAnalyzer_1.CheckboxAnalyzer(), new CheckboxSpeaker_1.CheckboxSpeaker(inputSpeaker));
                     map.set(new InputAnalyzer_1.InputAnalyzer(), new InputTextSpeaker_1.InputTextSpeaker(inputSpeaker));
+                    map.set(new SelectAnalyzer_1.SelectAnalyzer(), new SelectSpeaker_1.SelectSpeaker(textSpeaker, inputSpeaker));
                     map.set(new TextAnalyzer_1.TextAnalyzer(), textSpeaker);
                     // wildcard - always last and will catch everything that wasn't handled
                     map.set(new TrueAnalyzer_1.TrueAnalyzer(), nullSpeaker);
                     return map;
                 }
             };
-            exports_26("AnalyzeToSpeakMapper", AnalyzeToSpeakMapper);
+            exports_28("AnalyzeToSpeakMapper", AnalyzeToSpeakMapper);
         }
     };
 });
-System.register("chain-of-responsibility/ChainMaker", [], function (exports_27, context_27) {
-    var __moduleName = context_27 && context_27.id;
+System.register("chain-of-responsibility/ChainMaker", [], function (exports_29, context_29) {
+    var __moduleName = context_29 && context_29.id;
     var ChainMaker;
     return {
         setters: [],
@@ -718,12 +783,12 @@ System.register("chain-of-responsibility/ChainMaker", [], function (exports_27, 
                     return firstLink;
                 }
             };
-            exports_27("ChainMaker", ChainMaker);
+            exports_29("ChainMaker", ChainMaker);
         }
     };
 });
-System.register("output/AbstractOutputHandler", [], function (exports_28, context_28) {
-    var __moduleName = context_28 && context_28.id;
+System.register("output/AbstractOutputHandler", [], function (exports_30, context_30) {
+    var __moduleName = context_30 && context_30.id;
     var AbstractOutputHandler;
     return {
         setters: [],
@@ -735,12 +800,12 @@ System.register("output/AbstractOutputHandler", [], function (exports_28, contex
                 init() { }
                 ;
             };
-            exports_28("AbstractOutputHandler", AbstractOutputHandler);
+            exports_30("AbstractOutputHandler", AbstractOutputHandler);
         }
     };
 });
-System.register("output/SpeechSynthesisUtteranceOutputHandler", ["output/AbstractOutputHandler"], function (exports_29, context_29) {
-    var __moduleName = context_29 && context_29.id;
+System.register("output/SpeechSynthesisUtteranceOutputHandler", ["output/AbstractOutputHandler"], function (exports_31, context_31) {
+    var __moduleName = context_31 && context_31.id;
     var AbstractOutputHandler_1, SpeechSynthesisUtteranceOutputHandler;
     return {
         setters: [
@@ -763,12 +828,12 @@ System.register("output/SpeechSynthesisUtteranceOutputHandler", ["output/Abstrac
                     window.speechSynthesis.cancel();
                 }
             };
-            exports_29("SpeechSynthesisUtteranceOutputHandler", SpeechSynthesisUtteranceOutputHandler);
+            exports_31("SpeechSynthesisUtteranceOutputHandler", SpeechSynthesisUtteranceOutputHandler);
         }
     };
 });
-System.register("input/AbstractInputHandler", [], function (exports_30, context_30) {
-    var __moduleName = context_30 && context_30.id;
+System.register("input/AbstractInputHandler", [], function (exports_32, context_32) {
+    var __moduleName = context_32 && context_32.id;
     var AbstractInputHandler;
     return {
         setters: [],
@@ -784,12 +849,12 @@ System.register("input/AbstractInputHandler", [], function (exports_30, context_
                     return text;
                 }
             };
-            exports_30("AbstractInputHandler", AbstractInputHandler);
+            exports_32("AbstractInputHandler", AbstractInputHandler);
         }
     };
 });
-System.register("input/AbstractEventInputHandler", ["input/AbstractInputHandler"], function (exports_31, context_31) {
-    var __moduleName = context_31 && context_31.id;
+System.register("input/AbstractEventInputHandler", ["input/AbstractInputHandler"], function (exports_33, context_33) {
+    var __moduleName = context_33 && context_33.id;
     var AbstractInputHandler_1, AbstractEventInputHandler;
     return {
         setters: [
@@ -816,12 +881,12 @@ System.register("input/AbstractEventInputHandler", ["input/AbstractInputHandler"
                     }
                 }
             };
-            exports_31("AbstractEventInputHandler", AbstractEventInputHandler);
+            exports_33("AbstractEventInputHandler", AbstractEventInputHandler);
         }
     };
 });
-System.register("input/MouseMoveInputHandler", ["input/AbstractEventInputHandler"], function (exports_32, context_32) {
-    var __moduleName = context_32 && context_32.id;
+System.register("input/MouseMoveInputHandler", ["input/AbstractEventInputHandler"], function (exports_34, context_34) {
+    var __moduleName = context_34 && context_34.id;
     var AbstractEventInputHandler_1, MouseMoveInputHandler;
     return {
         setters: [
@@ -838,12 +903,12 @@ System.register("input/MouseMoveInputHandler", ["input/AbstractEventInputHandler
                     return "mouseover";
                 }
             };
-            exports_32("MouseMoveInputHandler", MouseMoveInputHandler);
+            exports_34("MouseMoveInputHandler", MouseMoveInputHandler);
         }
     };
 });
-System.register("input/TabInputHandler", ["input/AbstractEventInputHandler"], function (exports_33, context_33) {
-    var __moduleName = context_33 && context_33.id;
+System.register("input/TabInputHandler", ["input/AbstractEventInputHandler"], function (exports_35, context_35) {
+    var __moduleName = context_35 && context_35.id;
     var AbstractEventInputHandler_2, TAB_KEYCODE, TabInputHandler;
     return {
         setters: [
@@ -863,12 +928,12 @@ System.register("input/TabInputHandler", ["input/AbstractEventInputHandler"], fu
                     return "keyup";
                 }
             };
-            exports_33("TabInputHandler", TabInputHandler);
+            exports_35("TabInputHandler", TabInputHandler);
         }
     };
 });
-System.register("mutation-handlers/AbstractMutationHandler", [], function (exports_34, context_34) {
-    var __moduleName = context_34 && context_34.id;
+System.register("mutation-handlers/AbstractMutationHandler", [], function (exports_36, context_36) {
+    var __moduleName = context_36 && context_36.id;
     var AbstractMutationHandler;
     return {
         setters: [],
@@ -884,13 +949,13 @@ System.register("mutation-handlers/AbstractMutationHandler", [], function (expor
                     this.successor = successor;
                 }
             };
-            exports_34("AbstractMutationHandler", AbstractMutationHandler);
+            exports_36("AbstractMutationHandler", AbstractMutationHandler);
             ;
         }
     };
 });
-System.register("input/MutationObserverInputHandler", ["input/AbstractInputHandler"], function (exports_35, context_35) {
-    var __moduleName = context_35 && context_35.id;
+System.register("input/MutationObserverInputHandler", ["input/AbstractInputHandler"], function (exports_37, context_37) {
+    var __moduleName = context_37 && context_37.id;
     var AbstractInputHandler_2, MutationObserverInputHandler;
     return {
         setters: [
@@ -940,12 +1005,12 @@ System.register("input/MutationObserverInputHandler", ["input/AbstractInputHandl
                     this.observer.disconnect();
                 }
             };
-            exports_35("MutationObserverInputHandler", MutationObserverInputHandler);
+            exports_37("MutationObserverInputHandler", MutationObserverInputHandler);
         }
     };
 });
-System.register("bootstrap/InputListGetter", ["input/MouseMoveInputHandler", "input/TabInputHandler", "input/MutationObserverInputHandler"], function (exports_36, context_36) {
-    var __moduleName = context_36 && context_36.id;
+System.register("bootstrap/InputListGetter", ["input/MouseMoveInputHandler", "input/TabInputHandler", "input/MutationObserverInputHandler"], function (exports_38, context_38) {
+    var __moduleName = context_38 && context_38.id;
     var MouseMoveInputHandler_1, TabInputHandler_1, MutationObserverInputHandler_1, InputListGetter;
     return {
         setters: [
@@ -975,12 +1040,12 @@ System.register("bootstrap/InputListGetter", ["input/MouseMoveInputHandler", "in
                     ];
                 }
             };
-            exports_36("InputListGetter", InputListGetter);
+            exports_38("InputListGetter", InputListGetter);
         }
     };
 });
-System.register("mutation-handlers/AddedNodesMutationHandler", ["mutation-handlers/AbstractMutationHandler"], function (exports_37, context_37) {
-    var __moduleName = context_37 && context_37.id;
+System.register("mutation-handlers/AddedNodesMutationHandler", ["mutation-handlers/AbstractMutationHandler"], function (exports_39, context_39) {
+    var __moduleName = context_39 && context_39.id;
     var AbstractMutationHandler_1, AddedNodesMutationHandler;
     return {
         setters: [
@@ -1012,13 +1077,13 @@ System.register("mutation-handlers/AddedNodesMutationHandler", ["mutation-handle
                     }
                 }
             };
-            exports_37("AddedNodesMutationHandler", AddedNodesMutationHandler);
+            exports_39("AddedNodesMutationHandler", AddedNodesMutationHandler);
             ;
         }
     };
 });
-System.register("mutation-handlers/TextMutationHandler", ["mutation-handlers/AbstractMutationHandler"], function (exports_38, context_38) {
-    var __moduleName = context_38 && context_38.id;
+System.register("mutation-handlers/TextMutationHandler", ["mutation-handlers/AbstractMutationHandler"], function (exports_40, context_40) {
+    var __moduleName = context_40 && context_40.id;
     var AbstractMutationHandler_2, TextMutationHandler;
     return {
         setters: [
@@ -1040,13 +1105,13 @@ System.register("mutation-handlers/TextMutationHandler", ["mutation-handlers/Abs
                     return isText;
                 }
             };
-            exports_38("TextMutationHandler", TextMutationHandler);
+            exports_40("TextMutationHandler", TextMutationHandler);
             ;
         }
     };
 });
-System.register("bootstrap/MutationHandlersListGetter", ["mutation-handlers/AddedNodesMutationHandler", "mutation-handlers/TextMutationHandler"], function (exports_39, context_39) {
-    var __moduleName = context_39 && context_39.id;
+System.register("bootstrap/MutationHandlersListGetter", ["mutation-handlers/AddedNodesMutationHandler", "mutation-handlers/TextMutationHandler"], function (exports_41, context_41) {
+    var __moduleName = context_41 && context_41.id;
     var AddedNodesMutationHandler_1, TextMutationHandler_1, MutationHandlersListGetter;
     return {
         setters: [
@@ -1066,12 +1131,12 @@ System.register("bootstrap/MutationHandlersListGetter", ["mutation-handlers/Adde
                     ];
                 }
             };
-            exports_39("MutationHandlersListGetter", MutationHandlersListGetter);
+            exports_41("MutationHandlersListGetter", MutationHandlersListGetter);
         }
     };
 });
-System.register("bootstrap/Bootstrap", ["bootstrap/AnalyzeToSpeakMapper", "chain-of-responsibility/ChainMaker", "output/SpeechSynthesisUtteranceOutputHandler", "bootstrap/InputListGetter", "bootstrap/MutationHandlersListGetter", "mediator/ElementToTextMediator", "dom/GetterByIds"], function (exports_40, context_40) {
-    var __moduleName = context_40 && context_40.id;
+System.register("bootstrap/Bootstrap", ["bootstrap/AnalyzeToSpeakMapper", "chain-of-responsibility/ChainMaker", "output/SpeechSynthesisUtteranceOutputHandler", "bootstrap/InputListGetter", "bootstrap/MutationHandlersListGetter", "mediator/ElementToTextMediator", "dom/GetterByIds"], function (exports_42, context_42) {
+    var __moduleName = context_42 && context_42.id;
     var AnalyzeToSpeakMapper_1, ChainMaker_1, SpeechSynthesisUtteranceOutputHandler_1, InputListGetter_1, MutationHandlersListGetter_1, ElementToTextMediator_1, GetterByIds_1, Bootstrap;
     return {
         setters: [
@@ -1114,12 +1179,12 @@ System.register("bootstrap/Bootstrap", ["bootstrap/AnalyzeToSpeakMapper", "chain
                     }
                 }
             };
-            exports_40("Bootstrap", Bootstrap);
+            exports_42("Bootstrap", Bootstrap);
         }
     };
 });
-System.register("Main", ["bootstrap/Bootstrap"], function (exports_41, context_41) {
-    var __moduleName = context_41 && context_41.id;
+System.register("Main", ["bootstrap/Bootstrap"], function (exports_43, context_43) {
+    var __moduleName = context_43 && context_43.id;
     var Bootstrap_1;
     return {
         setters: [
