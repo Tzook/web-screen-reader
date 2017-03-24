@@ -353,10 +353,14 @@ System.register("analyze/HiddenAnalyzer", ["analyze/AbstractAnalyzer"], function
         execute: function () {
             HiddenAnalyzer = class HiddenAnalyzer extends AbstractAnalyzer_5.AbstractAnalyzer {
                 analyze(node) {
-                    return node.getAttribute("aria-hidden") === "true" || this.isHidden(node);
+                    return this.isHidden(node) || this.nodeTreeIsAriaHidden(node);
                 }
                 getRole() {
                     return "presentation";
+                }
+                nodeTreeIsAriaHidden(node) {
+                    // stop either when theres no further node and then result is false or if found an element with truthy aria-hidden 
+                    return node && (node.getAttribute("aria-hidden") === "true" || this.nodeTreeIsAriaHidden(node.parentElement));
                 }
                 isHidden(node) {
                     // see http://stackoverflow.com/a/36267487

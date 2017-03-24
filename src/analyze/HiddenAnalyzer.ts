@@ -2,11 +2,16 @@ import { AbstractAnalyzer } from "./AbstractAnalyzer";
 
 export class HiddenAnalyzer extends AbstractAnalyzer {
     protected analyze(node: HTMLElement): boolean {
-        return node.getAttribute("aria-hidden") === "true" || this.isHidden(node);
+        return this.isHidden(node) || this.nodeTreeIsAriaHidden(node);
     }
 
     protected getRole(): string {
         return "presentation";
+    }
+
+    protected nodeTreeIsAriaHidden(node: HTMLElement): boolean {
+        // stop either when theres no further node and then result is false or if found an element with truthy aria-hidden 
+        return node && (node.getAttribute("aria-hidden") === "true" || this.nodeTreeIsAriaHidden(node.parentElement));
     }
 
     protected isHidden(node: HTMLElement): boolean {
