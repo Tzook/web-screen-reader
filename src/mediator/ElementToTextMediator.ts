@@ -1,18 +1,17 @@
 import { AbstractAnalyzer } from "../analyze/AbstractAnalyzer";
-import { SpeakerInterface } from "../speak/SpeakerInterface";
-import { SpeakConfigInterface } from "../speak/SpeakConfigInterface";
+import { AbstractSpeaker } from "../speak/SpeakerInterface";
 
 export class ElementToTextMediator {
     protected analyzer: AbstractAnalyzer;
-    protected analyzeToSpeakMap: Map<AbstractAnalyzer, SpeakerInterface>;
+    protected analyzeToSpeakMap: Map<AbstractAnalyzer, AbstractSpeaker>;
 
-    public init(analyzer: AbstractAnalyzer, analyzeToSpeakMap: Map<AbstractAnalyzer, SpeakerInterface>) {
+    public init(analyzer: AbstractAnalyzer, analyzeToSpeakMap: Map<AbstractAnalyzer, AbstractSpeaker>) {
         this.analyzer = analyzer;
         this.analyzeToSpeakMap = analyzeToSpeakMap;
     }
 
     public getText(element: HTMLElement, config: SpeakConfigInterface): string {
-        let usedAnalyzer = this.analyzer.handle(element);
+        let usedAnalyzer = this.analyzer.handle(element, config);
         let speaker = this.analyzeToSpeakMap.get(usedAnalyzer);
         let speakText = speaker.getText(element, config);
         return speakText;

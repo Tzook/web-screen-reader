@@ -1,8 +1,7 @@
-import { SpeakerInterface } from "./SpeakerInterface";
-import { SpeakConfigInterface } from "./SpeakConfigInterface";
+import { AbstractSpeaker } from "./SpeakerInterface";
 
-export class NullSpeaker implements SpeakerInterface {
-    public getText(node: HTMLElement, config: SpeakConfigInterface): string {
+export class NullSpeaker extends AbstractSpeaker {
+    public getText(node: HTMLElement): string {
         return "";
     }
 }

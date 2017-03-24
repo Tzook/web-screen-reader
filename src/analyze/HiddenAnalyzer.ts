@@ -1,8 +1,8 @@
 import { AbstractAnalyzer } from "./AbstractAnalyzer";
 
 export class HiddenAnalyzer extends AbstractAnalyzer {
-    protected analyze(node: HTMLElement): boolean {
-        return this.isHidden(node) || this.nodeTreeIsAriaHidden(node);
+    protected analyze(node: HTMLElement, config: SpeakConfigInterface): boolean {
+        return !config.isRef && (this.isHidden(node) || this.nodeTreeIsAriaHidden(node));
     }
 
     protected getRole(): string {

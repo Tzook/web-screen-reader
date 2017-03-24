@@ -1,9 +1,8 @@
-import { SpeakerInterface } from "./SpeakerInterface";
-import { SpeakConfigInterface } from "./SpeakConfigInterface";
+import { AbstractSpeaker } from "./SpeakerInterface";
 import { InputSpeaker } from "./InputSpeaker";
 
-export class CheckboxSpeaker implements SpeakerInterface {
-    constructor(private inputSpeaker: InputSpeaker) { }
+export class CheckboxSpeaker extends AbstractSpeaker {
+    constructor(private inputSpeaker: InputSpeaker) { super() }
 
     public getText(node: HTMLInputElement, config: SpeakConfigInterface): string {
         let inputText = this.inputSpeaker.getText(node, config);

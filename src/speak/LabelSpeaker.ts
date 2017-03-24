@@ -1,13 +1,12 @@
-import { SpeakerInterface } from "./SpeakerInterface";
+import { AbstractSpeaker } from "./SpeakerInterface";
 import { ElementToTextMediator } from "../mediator/ElementToTextMediator";
 import { GetterByIds } from "../dom/GetterByIds";
-import { SpeakConfigInterface } from "./SpeakConfigInterface";
 import { TextSpeaker } from "./TextSpeaker";
 
-export class LabelSpeaker implements SpeakerInterface {
+export class LabelSpeaker extends AbstractSpeaker {
     constructor(private elementToTextMediator: ElementToTextMediator,
         private getterByIds: GetterByIds,
-        private textSpeaker: TextSpeaker) { }
+        private textSpeaker: TextSpeaker) { super(); }
 
     public getText(node: HTMLElement, config: SpeakConfigInterface): string {
         let text = this.textSpeaker.getText(node, config);
@@ -17,13 +16,13 @@ export class LabelSpeaker implements SpeakerInterface {
 
     protected getForText(node: HTMLElement, config: SpeakConfigInterface): string {
         let forText;
-        if (config.checkRef) {
+        if (!config.isRef) {
             let refFor = (node.getAttribute("for") || "").trim();
             if (refFor) {
                 let elements = this.getterByIds.getElements([refFor]);
                 if (elements.length > 0) {
                     // do not check ref for further elements, to avoid infinite label checks
-                    let newConfig = Object.assign({}, config, { checkRef: false });
+                    let newConfig = Object.assign({}, config, { isRef: true });
                     forText = this.elementToTextMediator.getText(<HTMLElement>elements[0], newConfig);
                 }
             }

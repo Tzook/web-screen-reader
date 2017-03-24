@@ -11,7 +11,7 @@ export abstract class AbstractInputHandler {
     public abstract disableInput(): void;
 
     protected getSpeakText(element: HTMLElement): string {
-        let text = this.elementToTextMediator.getText(element, { checkRef: true });
+        let text = this.elementToTextMediator.getText(element, { isRef: false });
         return text;
     }
 }

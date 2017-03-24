@@ -1,7 +1,7 @@
 import { ElementToTextMediator } from "../mediator/ElementToTextMediator";
 import { GetterByIds } from "../dom/GetterByIds";
 import { AbstractAnalyzer } from "../analyze/AbstractAnalyzer";
-import { SpeakerInterface } from "../speak/SpeakerInterface";
+import { AbstractSpeaker } from "../speak/SpeakerInterface";
 
 import { LinkAnalyzer } from "../analyze/LinkAnalyzer";
 import { LinkSpeaker } from "../speak/LinkSpeaker";
@@ -29,9 +29,9 @@ export class AnalyzeToSpeakMapper {
     constructor(private elementToTextMediator: ElementToTextMediator,
         private getterByIds: GetterByIds) { }
 
-    public getMap(): Map<AbstractAnalyzer, SpeakerInterface> {
+    public getMap(): Map<AbstractAnalyzer, AbstractSpeaker> {
         // the order of the items is the order that nodes are being analyzed until one of them is truthy
-        let map: Map<AbstractAnalyzer, SpeakerInterface> = new Map();
+        let map: Map<AbstractAnalyzer, AbstractSpeaker> = new Map();
 
         let nullSpeaker = new NullSpeaker();
         let labelledSpeaker = new LabelledSpeaker(this.elementToTextMediator, this.getterByIds);
